@@ -51,11 +51,11 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if TextMessage == "出勤":
+    if event.message.text == "出勤":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="出勤しました"))
-    if TextMessage == "退勤":
+    if event.message.text == "退勤":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="退勤しました"))
