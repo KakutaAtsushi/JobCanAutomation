@@ -11,6 +11,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+from jobcan_auto_login import jobcan_automation
+
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.load_cert_chain('./static/openssl/server.crt', './static/openssl/server.key')
 
@@ -22,11 +24,6 @@ LINE_API_ACCESS_TOKEN = 'pHJVkgryk5rrT85hLtMCh++S02PByBekeGIjc1hEJdYJegF6AEKVWyg
 
 line_bot_api = LineBotApi(LINE_API_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_API_SECRET)
-
-
-@app.route("/", methods=["GET"])
-def index():
-    return "success";
 
 
 @app.route("/callback", methods=['POST'])
@@ -52,13 +49,26 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text == "出勤":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="出勤しました"))
+        is_success = jobcan_automation(0)
+        if is_success == 1:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="出勤しました"))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="出勤しました"))
+
     if event.message.text == "退勤":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="退勤しました"))
+        is_success = jobcan_automation(1)
+        if is_success == 1:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="退勤しました"))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="エラーが発生しました"))
 
 
 if __name__ == "__main__":
