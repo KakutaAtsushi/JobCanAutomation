@@ -9,6 +9,7 @@ jobcan_login_id = os.getenv("JOBCAN_LOGIN_ID")
 jobcan_login_password = os.getenv("JOBCAN_LOGIN_PASSWORD")
 
 
+# すいません
 def jobcan_automation(arg):
     try:
         options = webdriver.ChromeOptions()
