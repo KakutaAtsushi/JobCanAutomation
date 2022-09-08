@@ -28,6 +28,7 @@ handler = WebhookHandler(LINE_API_SECRET)
 
 @app.route("/callback", methods=['POST'])
 def callback():
+    print("yeah")
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
@@ -48,6 +49,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    print("ここまできたよ")
     if event.message.text == "出勤":
         is_success = jobcan_automation(0)
         if is_success == 1:
@@ -60,6 +62,7 @@ def handle_message(event):
                 TextSendMessage(text="出勤しました"))
 
     if event.message.text == "退勤":
+        print("退勤入りましたぁ！！")
         is_success = jobcan_automation(1)
         if is_success == 1:
             line_bot_api.reply_message(
