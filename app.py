@@ -57,7 +57,7 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="出勤しました"))
+                TextSendMessage(text="エラーが発生しました"))
 
     if event.message.text == "退勤":
         is_success = jobcan_automation(1)
